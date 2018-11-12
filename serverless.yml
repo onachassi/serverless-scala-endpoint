@@ -1,0 +1,27 @@
+service: aws-scala-sbt-title-getter
+
+provider:
+  name: aws
+  runtime: java8
+  region: us-west-1
+
+package:
+  artifact: target/scala-2.12/getTitle.jar
+
+functions:
+  getTitle:
+    handler: getTitle.ApiGatewayHandler
+    events:
+      - http:
+          path: title
+          method: post
+          cors: 
+            origin: '*'
+            headers:
+              - Access-Control-Allow-Origin
+              - Content-Type
+            allowCredentials: false
+          request:
+            parameters:
+              body:
+                url: true
